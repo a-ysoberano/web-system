@@ -1,4 +1,4 @@
-<?php 
+    <?php 
     //Part 1
     $fullName = "Christian Arjay Y. Soberano";
     $email = "a.ysoberano@gmail.com";
@@ -37,12 +37,12 @@
     echo "<p> Email: ".$email."</p>";
     echo "<p> Address: ".$address."</p>";
     echo "<p> Phone Number: ".$phoneNumber."</p>";
-    echo "<p> Parents Name: ".$parentsName."</p>";
+    echo "<p> Parents Name: ".$parentsName."</p>";      
     echo "<p> Parents Contact Number: ".$parentsContact."</p>";
     echo "<p> Program: ".$program."</p>";
 
     echo "<h2> Career Objective </h2>";
-    echo "<p>".$careerTrack."</p>";
+    echo "<p>To pursue a career as a " . $careerTrack . " and develop my skills in managing, maintaining, and improving computer systems and networks.</p>";
 
     echo "<h2>Technical Skills</h2>";
     echo "<p>".$coreSkills."</p>";
