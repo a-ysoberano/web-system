@@ -9,7 +9,6 @@ if (!isset($_GET['id'])) {
 
 $id = (int)$_GET['id'];
 
-// 1. Get the user's current data
 $user_result = mysqli_query($mysqli, "SELECT * FROM user WHERE user_ID = $id");
 $user = mysqli_fetch_assoc($user_result);
 
@@ -17,12 +16,10 @@ if (!$user) {
     die("User not found.");
 }
 
-// 2. Get the user's current course (assuming 1 course per user based on our simple dropdown)
 $uc_result = mysqli_query($mysqli, "SELECT course_ID FROM user_course WHERE user_ID = $id");
 $uc = mysqli_fetch_assoc($uc_result);
 $current_course_id = $uc ? $uc['course_ID'] : 0;
 
-// 3. Get all available courses
 $courses_query = mysqli_query($mysqli, "SELECT * FROM course WHERE status = 'on'");
 ?>
 
