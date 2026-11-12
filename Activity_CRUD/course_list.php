@@ -106,7 +106,6 @@ $result = mysqli_query($mysqli, "SELECT * FROM course ORDER BY course_ID DESC");
                             <td><?= htmlspecialchars($row['name']) ?></td>
                             <td><?= htmlspecialchars($row['description']) ?></td>
                             <td>
-                                <!-- Checkbox Toggle -->
                                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                                     <input type="checkbox"
                                         <?= $row['status'] == 'on' ? 'checked' : '' ?>
