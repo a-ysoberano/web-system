@@ -1,0 +1,34 @@
+<?php
+require 'config/config.php';
+/** @var mysqli $mysqli */
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $firstname = mysqli_real_escape_string($mysqli, $_POST['firstname']);
+    $lastname = mysqli_real_escape_string($mysqli, $_POST['lastname']);
+    $middlename = mysqli_real_escape_string($mysqli, $_POST['middlename']);
+    $birthdate = mysqli_real_escape_string($mysqli, $_POST['birthdate']);
+    $gender = mysqli_real_escape_string($mysqli, $_POST['gender']);
+    $email = mysqli_real_escape_string($mysqli, $_POST['email']);
+    $courses = $_POST['courses'] ?? [];
+
+    $check = mysqli_query($mysqli, "SELECT * FROM user WHERE Email = '$email'");
+    if (mysqli_num_rows($check) > 0) {
+        die("Error: This email is already registered. <a href='form.html'>Go back</a>");
+    }
+
+    $sql = "INSERT INTO user (Firstname, Lastname, Middlename, Birthdate, Gender, Email) 
+            VALUES ('$firstname', '$lastname', '$middlename', '$birthdate', '$gender', '$email')";
+
+    if (mysqli_query($mysqli, $sql)) {
+        $user_id = mysqli_insert_id($mysqli);
+        foreach ($courses as $course_id) {
+            $course_id = (int)$course_id;
+            mysqli_query($mysqli, "INSERT INTO user_course (user_ID, course_ID) VALUES ($user_id, $course_id)");
+        }
+
+        header('Location: index.php');
+        exit();
+    } else {
+        die("Database Error: " . mysqli_error($mysqli));
+    }
+}
