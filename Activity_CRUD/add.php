@@ -9,11 +9,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $birthdate = mysqli_real_escape_string($mysqli, $_POST['birthdate']);
     $gender = mysqli_real_escape_string($mysqli, $_POST['gender']);
     $email = mysqli_real_escape_string($mysqli, $_POST['email']);
-    $courses = $_POST['courses'] ?? [];
+
+    $course_id = (int)$_POST['course_id'];
 
     $check = mysqli_query($mysqli, "SELECT * FROM user WHERE Email = '$email'");
     if (mysqli_num_rows($check) > 0) {
-        die("Error: This email is already registered. <a href='form.html'>Go back</a>");
+        die("Error: This email is already registered. <a href='form.php'>Go back</a>");
     }
 
     $sql = "INSERT INTO user (Firstname, Lastname, Middlename, Birthdate, Gender, Email) 
@@ -21,8 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (mysqli_query($mysqli, $sql)) {
         $user_id = mysqli_insert_id($mysqli);
-        foreach ($courses as $course_id) {
-            $course_id = (int)$course_id;
+
+        if ($course_id > 0) {
             mysqli_query($mysqli, "INSERT INTO user_course (user_ID, course_ID) VALUES ($user_id, $course_id)");
         }
 

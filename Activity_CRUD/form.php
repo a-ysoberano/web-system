@@ -53,8 +53,7 @@ $courses_query = mysqli_query($mysqli, "SELECT * FROM course WHERE status = 'on'
           <option value="">-- Select Course --</option>
           <?php while ($row = mysqli_fetch_assoc($courses_query)): ?>
             <option value="<?= $row['course_ID'] ?>">
-              <?= htmlspecialchars($row['course_code']) ?> - <?=
-                                                              htmlspecialchars($row['name']) ?>
+              <?= htmlspecialchars($row['course_code']) ?> - <?= htmlspecialchars($row['name']) ?>
             </option>
           <?php endwhile; ?>
         </select>

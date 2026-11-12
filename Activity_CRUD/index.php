@@ -8,7 +8,7 @@ $filter_date = $_GET['date_created'] ?? '';
 
 $sql = "SELECT 
             u.user_ID, u.Firstname, u.Lastname, u.Middlename, u.Birthdate, u.Gender, u.Email, u.date_created,
-            GROUP_CONCAT(CONCAT(c.course_code, ' (', c.description, ')') SEPARATOR '<br>') as courses
+            GROUP_CONCAT(CONCAT(c.course_code, ' (', c.name, ')') SEPARATOR '<br>') as courses
         FROM user u
         LEFT JOIN user_course uc ON u.user_ID = uc.user_ID
         LEFT JOIN course c ON uc.course_ID = c.course_ID
@@ -46,7 +46,10 @@ $result = mysqli_query($mysqli, $sql);
 
     <div class="dashboard-container">
         <h1>User Details & Courses</h1>
-        <a href="form.php" class="btn btn-primary" style="margin-bottom: 20px;">+ Add New User</a>
+        <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+            <a href="form.php" class="btn btn-primary">+ Add New User</a>
+            <a href="course_list.php" class="btn btn-secondary">Manage Courses</a>
+        </div>
 
         <div class="filter-box">
             <form action="index.php" method="get">
@@ -65,44 +68,47 @@ $result = mysqli_query($mysqli, $sql);
             </form>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Birthdate</th>
-                    <th>Gender</th>
-                    <th>Email</th>
-                    <th>Courses</th>
-                    <th>Registered</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (mysqli_num_rows($result) > 0): ?>
-                    <?php while ($row = mysqli_fetch_assoc($result)): ?>
-                        <tr>
-                            <td>
-                                <strong><?= htmlspecialchars($row['Lastname'] . ', ' . $row['Firstname']) ?></strong><br>
-                                <small><?= htmlspecialchars($row['Middlename']) ?></small>
-                            </td>
-                            <td><?= htmlspecialchars($row['Birthdate']) ?></td>
-                            <td><?= $row['Gender'] == 'M' ? 'Male' : 'Female' ?></td>
-                            <td><?= htmlspecialchars($row['Email']) ?></td>
-                            <td><?= $row['courses'] ? $row['courses'] : '<em>None</em>' ?></td>
-                            <td><?= htmlspecialchars($row['date_created']) ?></td>
-                            <td style="white-space: nowrap;">
-                                <a href="edit.php?id=<?= $row['user_ID'] ?>" class="action-btn action-edit">Edit</a>
-                                <a href="delete.php?id=<?= $row['user_ID'] ?>" class="action-btn action-delete" onclick="return confirm('Delete this user?');">Delete</a>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                <?php else: ?>
+        <div class="table-responsive">
+            <table>
+                <thead>
                     <tr>
-                        <td colspan="7" style="text-align: center;">No users found.</td>
+                        <th>Name</th>
+                        <th>Birthdate</th>
+                        <th>Gender</th>
+                        <th>Email</th>
+                        <th>Courses</th>
+                        <th>Registered</th>
+                        <th>Actions</th>
                     </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php if (mysqli_num_rows($result) > 0): ?>
+                        <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                            <tr>
+                                <td>
+                                    <strong><?= htmlspecialchars($row['Lastname'] . ', ' . $row['Firstname']) ?></strong><br>
+                                    <small><?= htmlspecialchars($row['Middlename']) ?></small>
+                                </td>
+                                <td><?= htmlspecialchars($row['Birthdate']) ?></td>
+                                <td><?= $row['Gender'] == 'M' ? 'Male' : 'Female' ?></td>
+                                <td><?= htmlspecialchars($row['Email']) ?></td>
+                                <td><?= $row['courses'] ? $row['courses'] : '<em>None</em>' ?></td>
+                                <td><?= htmlspecialchars($row['date_created']) ?></td>
+                                <td style="white-space: nowrap;">
+                                    <a href="edit.php?id=<?= $row['user_ID'] ?>" class="action-btn action-edit">Edit</a>
+                                    <a href="delete.php?id=<?= $row['user_ID'] ?>" class="action-btn action-delete" onclick="return confirm('Delete this user?');">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="7" style="text-align: center;">No users found.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
 </body>

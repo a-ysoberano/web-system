@@ -77,10 +77,12 @@ body {
 }
 
 .dashboard-container {
+  width: 100%;
   max-width: 1200px;
   margin: 40px auto;
   background: #fff;
-  padding: 20px 30px;
+  padding: 20px;
+  box-sizing: border-box;
   border-radius: 8px;
   border: 1px solid #d1d5db;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
@@ -139,4 +141,27 @@ th {
   background: transparent;
   color: #ef4444;
   border: 1px solid #ef4444;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  min-width: 800px;
+  table-layout: auto;
+}
+
+td,
+th {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 200px;
+}
+
+td:last-child {
+  white-space: nowrap;
 }
